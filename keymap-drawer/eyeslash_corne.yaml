@@ -34,7 +34,7 @@ layers:
   - {t: X, h: Ctl+X}
   - {t: C, h: Ctl+C}
   - {t: V, h: Ctl+V}
-  - '&b_paste_values'
+  - {t: B, h: '&paste_values'}
   - {t: '$$mdi:minus-circle-outline$$', type: none}
   - PG DN
   - N
