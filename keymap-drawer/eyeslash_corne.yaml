@@ -21,7 +21,7 @@ layers:
   - {t: F, h: NAV}
   - G
   - Alt+$$mdi:arrow-left-bold$$
-  - Ctl+F
+  - F2
   - Alt+$$mdi:arrow-right-bold$$
   - H
   - J
@@ -56,12 +56,12 @@ layers:
   - Ctl+Sft+T
   - Ctl+R
   - Ctl+L
-  - Ctl+HOME
-  - PG UP
   - HOME
+  - {t: '$$mdi:transfer$$', type: trans}
+  - PG UP
   - $$mdi:arrow-up-bold$$
-  - END
   - PG DN
+  - END
   - $$mdi:backspace-reverse-outline$$
   - {t: '$$mdi:transfer$$', type: trans}
   - LGUI
@@ -69,9 +69,9 @@ layers:
   - $$mdi:apple-keyboard-control$$
   - {type: held}
   - Ctl+F
-  - Ctl+$$mdi:arrow-left-bold$$
+  - Alt+$$mdi:arrow-left-bold$$
   - {t: '$$mdi:keyboard-return$$', type: enter}
-  - Ctl+$$mdi:arrow-right-bold$$
+  - Alt+$$mdi:arrow-right-bold$$
   - {t: '$$mdi:transfer$$', type: trans}
   - $$mdi:arrow-left-bold$$
   - $$mdi:arrow-down-bold$$
@@ -85,11 +85,11 @@ layers:
   - Ctl+V
   - Ctl+A
   - {t: '$$mdi:transfer$$', type: trans}
-  - Ctl+END
-  - Alt+$$mdi:arrow-left-bold$$
-  - Ctl+$$mdi:arrow-left-bold$$
-  - Ctl+$$mdi:arrow-right-bold$$
-  - Alt+$$mdi:arrow-right-bold$$
+  - {t: '$$mdi:transfer$$', type: trans}
+  - HOME
+  - END
+  - {t: 'Ctl+$$mdi:backspace$$', type: backspace}
+  - Ctl+$$mdi:backspace-reverse-outline$$
   - Ctl+S
   - PRINTSCREEN
   - {t: '$$mdi:transfer$$', type: trans}
