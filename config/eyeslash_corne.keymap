@@ -145,9 +145,9 @@
             display-name = "NUMBER";
             bindings = <
 &to BASE   &kp F1       &kp F2       &kp F3       &kp F4       &kp F5                         &kp LC(UP)             &trans       &kp N7       &kp N8        &kp N9        &kp FSLH      &kp EQUAL
-&trans     &kp F6       &kp F7       &kp F8       &kp F9       &kp F10            &kp LC(LEFT) &kp F2        &kp LC(RIGHT) &trans       &kp N4       &kp N5        &kp N6        &kp ASTRK     &kp MINUS
-&trans     &kp F11      &kp F12      &trans       &trans       &trans  &trans              &kp LC(DOWN)           &kp N0       &kp N1       &kp N2        &kp N3        &kp PLUS      &kp ENTER
-                                  &trans         &trans       &trans                                                  &kp ENTER    &trans       &trans
+&kp LALT   &kp F6       &hm LSHFT F7 &hm LCTRL F8 &kp F9       &kp F10            &kp LC(LEFT) &kp F2        &kp LC(RIGHT) &trans       &kp N4       &hm LCTRL N5  &hm LSHFT N6  &kp ASTRK     &kp MINUS
+&trans     &kp F11      &kp F12      &trans       &trans       &trans  &trans              &kp LC(DOWN)           &trans       &kp N1       &kp N2        &kp N3        &kp PLUS      &kp ENTER
+                                  &trans         &trans       &trans                                                  &kp ENTER    &kp N0       &trans
             >;
             sensor-bindings = <&scroll_encoder>;
         };
@@ -155,10 +155,10 @@
         sym_layer {
             display-name = "SYMBOL";
             bindings = <
-&to BASE   &kp GRAVE     &kp EXCL      &kp AT        &kp HASH      &kp DLLR                         &trans                &kp PRCNT    &kp CARET    &kp AMPS      &kp ASTRK     &kp BSLH      &kp PIPE
-&trans     &kp TILDE     &kp MINUS     &kp EQUAL     &kp LBKT      &kp RBKT             &trans      &trans        &trans        &kp LPAR     &kp RPAR     &kp LBRC      &kp RBRC      &kp PLUS      &kp LS(SQT)
-&trans     &kp LS(MINUS) &kp LS(COMMA) &kp LS(DOT)   &kp COMMA     &kp DOT   &trans                &trans                &kp FSLH     &kp LS(FSLH) &kp LS(SEMI)  &kp SEMI      &kp AMPS      &kp SQT
-                                      &trans         &trans        &trans                                                  &kp RET      &trans       &trans
+&to BASE   &kp GRAVE     &kp EXCL        &kp AT          &kp HASH      &kp DLLR                         &trans                &kp PRCNT    &kp CARET    &kp AMPS        &kp ASTRK       &kp BSLH      &kp PIPE
+&kp LALT   &kp TILDE     &hm LSHFT MINUS &hm LCTRL EQUAL &kp LBKT      &kp RBKT             &trans      &trans        &trans        &trans      &kp LPAR     &hm LCTRL RPAR &hm LSHFT LBRC &kp RBRC      &kp PLUS
+&trans     &kp LS(MINUS) &kp LS(COMMA)   &kp LS(DOT)     &kp COMMA     &kp DOT   &trans                &trans                &kp FSLH     &kp LS(FSLH) &kp LS(SEMI)    &kp SEMI       &kp AMPS      &kp SQT
+                                      &trans           &trans          &trans                                                  &kp RET      &trans       &trans
             >;
             sensor-bindings = <&scroll_encoder>;
         };
@@ -168,7 +168,7 @@
             bindings = <
 &to BASE        &snip          &kp LC(K)      &kp LC(SLASH)  &kp LS(ENTER)  &kp LC(ENTER)                    &trans                &bt BT_CLR     &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4
 &studio_unlock  &kp LC(A)      &kp LC(C)      &kp LC(V)      &kp LC(X)      &kp LC(Z)             &trans      &trans        &trans        &out OUT_TOG   &rgb_ug RGB_TOG &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &bt BT_CLR_ALL
-&bootloader     &out OUT_USB   &out OUT_BLE   &sys_reset     &excel_filter  &kp LA(TAB) &trans               &trans                &kp PRINTSCREEN &kp PAUSE_BREAK &kp ESC       &trans          &trans          &trans
+&trans          &out OUT_USB   &out OUT_BLE   &trans         &excel_filter  &kp LA(TAB) &trans               &trans                &kp PRINTSCREEN &kp PAUSE_BREAK &kp ESC       &trans          &sys_reset      &bootloader
                                             &trans         &trans         &trans                                                   &trans       &trans       &trans
             >;
             sensor-bindings = <&scroll_encoder>;
