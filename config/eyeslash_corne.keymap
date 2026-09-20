@@ -11,11 +11,12 @@
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/rgb.h>
 
-#define BASE 0
-#define NAV  1
-#define NUM  2
-#define SYM  3
-#define FUN  4
+#define BASE  0
+#define NAV   1
+#define SYM   2
+#define NUM   3
+#define FUN   4
+#define MAINT 5
 
 &mmv_input_listener {
     input-processors = <&zip_xy_scaler 2 1>;
@@ -39,6 +40,10 @@
 
 &lt {
     tapping-term-ms = <200>;
+};
+
+&sl {
+    release-after-ms = <2000>;
 };
 
 / {
@@ -71,15 +76,6 @@
         };
     };
 
-    combos {
-        compatible = "zmk,combos";
-
-        find {
-            bindings = <&kp LC(F)>;
-            key-positions = <35 36>;
-        };
-    };
-
     behaviors {
         td0: td0 {
             compatible = "zmk,behavior-tap-dance";
@@ -89,6 +85,15 @@
         };
 
         hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <150>;
+            quick-tap-ms = <0>;
+            bindings = <&kp>, <&kp>;
+        };
+
+        edit_hold: edit_hold {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
@@ -123,6 +128,12 @@
     keymap {
         compatible = "zmk,keymap";
 
+        /*
+         * Each finger row is split across three lines:
+         * left half, center/joystick, right half.
+         * The final two lines are the left and right thumbs.
+         */
+
         default_layer {
             display-name = "QWERTY";
             bindings = <
@@ -134,12 +145,12 @@
                     &kp LA(LEFT)  &kp F2  &kp LA(RIGHT)
                 &kp H  &kp J  &hm LCTRL K  &hm LSHFT L  &kp SEMI  &kp SQT
 
-                &kp ESC  &hm LC(Z) Z  &hm LC(X) X  &hm LC(C) C  &hm LC(V) V  &b_paste_values 0 B
+                &kp ESC  &edit_hold LC(Z) Z  &edit_hold LC(X) X  &edit_hold LC(C) C  &edit_hold LC(V) V  &b_paste_values 0 B
                     &none  &kp PG_DN
                 &kp N  &kp M  &kp COMMA  &kp DOT  &kp FSLH  &mo FUN
 
                 &kp LGUI  &mo NUM  &kp SPACE
-                &kp ENTER  &mo SYM  &kp BSPC
+                &kp ENTER  &sl SYM  &kp BSPC
             >;
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;
         };
@@ -156,7 +167,7 @@
                 &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LC(BSPC)  &kp LC(DEL)
 
                 &trans  &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)  &kp LC(A)
-                    &trans  &trans
+                    &none  &trans
                 &kp HOME  &kp END  &kp LC(BSPC)  &kp LC(DEL)  &kp LC(S)  &kp PRINTSCREEN
 
                 &trans  &trans  &trans
@@ -165,45 +176,52 @@
             sensor-bindings = <&scroll_encoder>;
         };
 
+        /*
+         * Selenium symbol positions, with custom home-row mods.
+         * Comma and period remain available on the outer right column.
+         */
+        sym_layer {
+            display-name = "SYMBOL";
+            bindings = <
+                &to BASE  &kp CARET  &kp LS(COMMA)  &kp LS(DOT)  &kp DLLR  &kp PRCNT
+                    &trans
+                &kp AT  &kp AMPS  &kp ASTRK  &kp SQT  &kp GRAVE  &kp DEL
+
+                &kp LALT  &kp LBRC  &hm LSHFT LPAR  &hm LCTRL RPAR  &kp RBRC  &kp EQUAL
+                    &trans  &trans  &trans
+                &kp BSLH  &kp PLUS  &hm LCTRL MINUS  &hm LSHFT FSLH  &kp LS(SQT)  &kp COMMA
+
+                &trans  &kp TILDE  &kp LBKT  &kp RBKT  &kp LS(MINUS)  &kp HASH
+                    &none  &trans
+                &kp PIPE  &kp EXCL  &kp SEMI  &kp LS(SEMI)  &kp LS(FSLH)  &kp DOT
+
+                &kp LGUI  &mo NUM  &kp SPACE
+                &kp ENTER  &trans  &kp BSPC
+            >;
+            sensor-bindings = <&scroll_encoder>;
+        };
+
+        /*
+         * NUM follows SYM so numbers take priority when both are held.
+         * Extra F4 is at V; zero is on the right middle thumb.
+         */
         num_layer {
             display-name = "NUMBER";
             bindings = <
                 &to BASE  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5
                     &kp LC(UP)
-                &trans  &kp N7  &kp N8  &kp N9  &kp FSLH  &kp EQUAL
+                &kp PLUS  &kp N7  &kp N8  &kp N9  &kp FSLH  &kp EQUAL
 
                 &kp LALT  &kp F6  &hm LSHFT F7  &hm LCTRL F8  &kp F9  &kp F10
                     &kp LC(LEFT)  &kp F2  &kp LC(RIGHT)
-                &trans  &kp N4  &hm LCTRL N5  &hm LSHFT N6  &kp ASTRK  &kp MINUS
+                &kp MINUS  &kp N4  &hm LCTRL N5  &hm LSHFT N6  &kp ASTRK  &kp MINUS
 
-                /* Extra F4 at the base-layer V position. */
                 &trans  &kp F11  &kp F12  &trans  &kp F4  &trans
-                    &trans  &kp LC(DOWN)
-                &trans  &kp N1  &kp N2  &kp N3  &kp PLUS  &kp ENTER
+                    &none  &kp LC(DOWN)
+                &kp COMMA  &kp N1  &kp N2  &kp N3  &kp DOT  &kp ENTER
 
-                &trans  &trans  &trans
-                &kp ENTER  &kp N0  &trans
-            >;
-            sensor-bindings = <&scroll_encoder>;
-        };
-
-        sym_layer {
-            display-name = "SYMBOL";
-            bindings = <
-                &to BASE  &kp GRAVE  &kp EXCL  &kp AT  &kp HASH  &kp DLLR
-                    &trans
-                &kp PRCNT  &kp CARET  &kp AMPS  &kp ASTRK  &kp BSLH  &kp PIPE
-
-                &kp LALT  &kp TILDE  &hm LSHFT MINUS  &hm LCTRL EQUAL  &kp LBKT  &kp RBKT
-                    &trans  &trans  &trans
-                &trans  &kp LPAR  &hm LCTRL RPAR  &hm LSHFT LBRC  &kp RBRC  &kp PLUS
-
-                &trans  &kp LS(MINUS)  &kp LS(COMMA)  &kp LS(DOT)  &kp COMMA  &kp DOT
-                    &trans  &trans
-                &kp FSLH  &kp LS(FSLH)  &kp LS(SEMI)  &kp SEMI  &kp AMPS  &kp SQT
-
-                &trans  &trans  &trans
-                &kp RET  &trans  &trans
+                &kp LGUI  &trans  &kp SPACE
+                &kp ENTER  &kp N0  &kp BSPC
             >;
             sensor-bindings = <&scroll_encoder>;
         };
@@ -213,18 +231,44 @@
             bindings = <
                 &to BASE  &snip  &kp LG(E)  &kp LG(D)  &kp LG(R)  &kp LG(L)
                     &trans
-                &bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
+                &none  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
 
                 &studio_unlock  &trans  &kp LC(A)  &kp LC(C)  &kp LC(V)  &kp LC(Z)
                     &trans  &trans  &trans
-                &out OUT_TOG  &rgb_ug RGB_TOG  &rgb_ug RGB_HUI  &rgb_ug RGB_SAI  &rgb_ug RGB_BRI  &bt BT_CLR_ALL
+                &out OUT_TOG  &rgb_ug RGB_TOG  &rgb_ug RGB_HUI  &rgb_ug RGB_SAI  &rgb_ug RGB_BRI  &none
 
                 &trans  &out OUT_USB  &out OUT_BLE  &excel_filter  &kp LA(TAB)  &kp ESC
-                    &trans  &trans
-                &kp PRINTSCREEN  &trans  &trans  &trans  &sys_reset  &bootloader
+                    &none  &trans
+                &kp PRINTSCREEN  &trans  &trans  &trans  &none  &trans
 
+                &mo MAINT  &trans  &trans
                 &trans  &trans  &trans
-                &trans  &trans  &trans
+            >;
+            sensor-bindings = <&scroll_encoder>;
+        };
+
+        /*
+         * Enter from TOOLS by holding the left Windows thumb.
+         * Q: restart, W: bootloader,
+         * E: clear current BT profile, R: clear all BT profiles.
+         */
+        maintenance_layer {
+            display-name = "MAINT";
+            bindings = <
+                &none  &sys_reset  &bootloader  &bt BT_CLR  &bt BT_CLR_ALL  &none
+                    &none
+                &none  &none  &none  &none  &none  &none
+
+                &none  &none  &none  &none  &none  &none
+                    &none  &none  &none
+                &none  &none  &none  &none  &none  &none
+
+                &none  &none  &none  &none  &none  &none
+                    &none  &none
+                &none  &none  &none  &none  &none  &trans
+
+                &trans  &none  &none
+                &none  &none  &none
             >;
             sensor-bindings = <&scroll_encoder>;
         };
